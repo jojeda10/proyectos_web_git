@@ -1,0 +1,17 @@
+#Crear Base de Datos para entregable6
+mysql -e "CREATE DATABASE entregable6;" -u root -p
+
+#Crear tabla citieslocations (la borramos primero si existiera)
+mysql -e "use entregable6; DROP TABLE IF EXISTS citieslocations;   CREATE TABLE citieslocations (  geoname_id CHAR(120),  locale_code CHAR(20),  continent_code CHAR(10),  continent_name VARCHAR(20),  country_iso_code CHAR(2),  country_name VARCHAR(120),  subdivision_1_iso_code CHAR(120),  subdivision_1_name VARCHAR(120),  subdivision_2_iso_code CHAR(120),  subdivision_2_name VARCHAR(120),   city_name CHAR(120),  metro_code CHAR(10), time_zone CHAR(40), is_in_european_union CHAR(2)) ENGINE = InnoDB CHARACTER SET=utf8mb4;" -u root -p
+
+#Importar city location csv
+mysqlimport --fields-optionally-enclosed-by='\"' --fields-terminated-by=',' --lines-terminated-by='\n' --user=root -p entregable6 /var/lib/mysql-files/citieslocations.csv --ignore-lines=1
+
+
+#Crear tabla citiesblocks (la borramos primero si existiera)
+mysql -e "use entregable6; DROP TABLE IF EXISTS citiesblocks;   CREATE TABLE citiesblocks ( network CHAR(20), geoname_id CHAR(120),  registered_country_geoname_id CHAR(20),  represented_country_geoname_id CHAR(10),  is_anonymous_proxy CHAR(20), is_satellite_provider CHAR(2),  postal_code CHAR(10),  latitude CHAR(20),  longitude CHAR(20),  accuracy_radius CHAR(12)) ENGINE = InnoDB CHARACTER SET=utf8mb4;" -u root -p
+
+#Importar city blocks csv
+mysqlimport --fields-optionally-enclosed-by='\"' --fields-terminated-by=',' --lines-terminated-by='\n' --user=root -p entregable6 /var/lib/mysql-files/citiesblocks.csv --ignore-lines=1
+
+
